@@ -86,6 +86,7 @@ void __init arm_dt_init_cpu_maps(void)
 		u32 hwid = of_get_cpu_hwid(cpu, 0);
 
 		pr_debug(" * %pOF...\n", cpu);
+		pr_info(" * %pOF...\n", cpu);
 
 		/*
 		 * Bits n:24 must be set to 0 in the DT since the reg property
@@ -192,6 +193,8 @@ static const void * __init arch_get_next_mach(const char *const **match)
 const struct machine_desc * __init setup_machine_fdt(void *dt_virt)
 {
 	const struct machine_desc *mdesc, *mdesc_best = NULL;
+    
+    pr_info("%s\n", __func__);
 
 	DT_MACHINE_START(GENERIC_DT, "Generic DT based system")
 		.l2c_aux_val = 0x0,

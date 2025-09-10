@@ -44,6 +44,7 @@ static BLOCKING_NOTIFIER_HEAD(i3c_bus_notifier);
  */
 static void i3c_bus_maintenance_lock(struct i3c_bus *bus)
 {
+  printk("FUNC %s\n", __func__);
 	down_write(&bus->lock);
 }
 
@@ -58,6 +59,7 @@ static void i3c_bus_maintenance_lock(struct i3c_bus *bus)
  */
 static void i3c_bus_maintenance_unlock(struct i3c_bus *bus)
 {
+  printk("FUNC %s\n", __func__);
 	up_write(&bus->lock);
 }
 
@@ -79,6 +81,7 @@ static void i3c_bus_maintenance_unlock(struct i3c_bus *bus)
  */
 void i3c_bus_normaluse_lock(struct i3c_bus *bus)
 {
+  printk("FUNC %s\n", __func__);
 	down_read(&bus->lock);
 }
 
@@ -92,17 +95,20 @@ void i3c_bus_normaluse_lock(struct i3c_bus *bus)
  */
 void i3c_bus_normaluse_unlock(struct i3c_bus *bus)
 {
+  printk("FUNC %s\n", __func__);
 	up_read(&bus->lock);
 }
 
 static struct i3c_master_controller *
 i3c_bus_to_i3c_master(struct i3c_bus *i3cbus)
 {
+  printk("FUNC %s\n", __func__);
 	return container_of(i3cbus, struct i3c_master_controller, bus);
 }
 
 static struct i3c_master_controller *dev_to_i3cmaster(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	return container_of(dev, struct i3c_master_controller, dev);
 }
 
@@ -110,6 +116,7 @@ static const struct device_type i3c_device_type;
 
 static struct i3c_bus *dev_to_i3cbus(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master;
 
 	if (dev->type == &i3c_device_type)
@@ -122,6 +129,7 @@ static struct i3c_bus *dev_to_i3cbus(struct device *dev)
 
 static struct i3c_dev_desc *dev_to_i3cdesc(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master;
 
 	if (dev->type == &i3c_device_type)
@@ -136,6 +144,7 @@ static ssize_t bcr_show(struct device *dev,
 			struct device_attribute *da,
 			char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 	struct i3c_dev_desc *desc;
 	ssize_t ret;
@@ -153,6 +162,7 @@ static ssize_t dcr_show(struct device *dev,
 			struct device_attribute *da,
 			char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 	struct i3c_dev_desc *desc;
 	ssize_t ret;
@@ -170,6 +180,7 @@ static ssize_t pid_show(struct device *dev,
 			struct device_attribute *da,
 			char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 	struct i3c_dev_desc *desc;
 	ssize_t ret;
@@ -187,6 +198,7 @@ static ssize_t dynamic_address_show(struct device *dev,
 				    struct device_attribute *da,
 				    char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 	struct i3c_dev_desc *desc;
 	ssize_t ret;
@@ -208,6 +220,7 @@ static ssize_t hdrcap_show(struct device *dev,
 			   struct device_attribute *da,
 			   char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 	struct i3c_dev_desc *desc;
 	ssize_t offset = 0, ret;
@@ -248,6 +261,7 @@ static DEVICE_ATTR_RO(hdrcap);
 static ssize_t modalias_show(struct device *dev,
 			     struct device_attribute *da, char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_device *i3c = dev_to_i3cdev(dev);
 	struct i3c_device_info devinfo;
 	u16 manuf, part, ext;
@@ -305,6 +319,7 @@ static const struct device_type i3c_device_type = {
 
 static int i3c_device_match(struct device *dev, const struct device_driver *drv)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_device *i3cdev;
 	const struct i3c_driver *i3cdrv;
 
@@ -321,6 +336,7 @@ static int i3c_device_match(struct device *dev, const struct device_driver *drv)
 
 static int i3c_device_probe(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
 	struct i3c_driver *driver = drv_to_i3cdrv(dev->driver);
 
@@ -329,6 +345,7 @@ static int i3c_device_probe(struct device *dev)
 
 static void i3c_device_remove(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_device *i3cdev = dev_to_i3cdev(dev);
 	struct i3c_driver *driver = drv_to_i3cdrv(dev->driver);
 
@@ -349,6 +366,7 @@ EXPORT_SYMBOL_GPL(i3c_bus_type);
 static enum i3c_addr_slot_status
 i3c_bus_get_addr_slot_status_mask(struct i3c_bus *bus, u16 addr, u32 mask)
 {
+  printk("FUNC %s\n", __func__);
 	unsigned long status;
 	int bitpos = addr * I3C_ADDR_SLOT_STATUS_BITS;
 
@@ -364,12 +382,14 @@ i3c_bus_get_addr_slot_status_mask(struct i3c_bus *bus, u16 addr, u32 mask)
 static enum i3c_addr_slot_status
 i3c_bus_get_addr_slot_status(struct i3c_bus *bus, u16 addr)
 {
+  printk("FUNC %s\n", __func__);
 	return i3c_bus_get_addr_slot_status_mask(bus, addr, I3C_ADDR_SLOT_STATUS_MASK);
 }
 
 static void i3c_bus_set_addr_slot_status_mask(struct i3c_bus *bus, u16 addr,
 					      enum i3c_addr_slot_status status, u32 mask)
 {
+  printk("FUNC %s\n", __func__);
 	int bitpos = addr * I3C_ADDR_SLOT_STATUS_BITS;
 	unsigned long *ptr;
 
@@ -384,11 +404,13 @@ static void i3c_bus_set_addr_slot_status_mask(struct i3c_bus *bus, u16 addr,
 static void i3c_bus_set_addr_slot_status(struct i3c_bus *bus, u16 addr,
 					 enum i3c_addr_slot_status status)
 {
+  printk("FUNC %s\n", __func__);
 	i3c_bus_set_addr_slot_status_mask(bus, addr, status, I3C_ADDR_SLOT_STATUS_MASK);
 }
 
 static bool i3c_bus_dev_addr_is_avail(struct i3c_bus *bus, u8 addr)
 {
+  printk("FUNC %s\n", __func__);
 	enum i3c_addr_slot_status status;
 
 	status = i3c_bus_get_addr_slot_status(bus, addr);
@@ -421,6 +443,7 @@ static bool i3c_bus_dev_addr_is_avail(struct i3c_bus *bus, u8 addr)
  */
 static int i3c_bus_get_free_addr(struct i3c_bus *bus, u8 start_addr)
 {
+  printk("FUNC %s\n", __func__);
 	enum i3c_addr_slot_status status;
 	u8 addr;
 
@@ -503,6 +526,7 @@ static int i3c_bus_init(struct i3c_bus *i3cbus, struct device_node *np)
 void i3c_for_each_bus_locked(int (*fn)(struct i3c_bus *bus, void *data),
 			     void *data)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *bus;
 	int id;
 
@@ -515,18 +539,21 @@ EXPORT_SYMBOL_GPL(i3c_for_each_bus_locked);
 
 int i3c_register_notifier(struct notifier_block *nb)
 {
+  printk("FUNC %s\n", __func__);
 	return blocking_notifier_chain_register(&i3c_bus_notifier, nb);
 }
 EXPORT_SYMBOL_GPL(i3c_register_notifier);
 
 int i3c_unregister_notifier(struct notifier_block *nb)
 {
+  printk("FUNC %s\n", __func__);
 	return blocking_notifier_chain_unregister(&i3c_bus_notifier, nb);
 }
 EXPORT_SYMBOL_GPL(i3c_unregister_notifier);
 
 static void i3c_bus_notify(struct i3c_bus *bus, unsigned int action)
 {
+  printk("FUNC %s\n", __func__);
 	blocking_notifier_call_chain(&i3c_bus_notifier, action, bus);
 }
 
@@ -541,6 +568,7 @@ static ssize_t mode_show(struct device *dev,
 			 struct device_attribute *da,
 			 char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	ssize_t ret;
 
@@ -561,6 +589,7 @@ static ssize_t current_master_show(struct device *dev,
 				   struct device_attribute *da,
 				   char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	ssize_t ret;
 
@@ -577,6 +606,7 @@ static ssize_t i3c_scl_frequency_show(struct device *dev,
 				      struct device_attribute *da,
 				      char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	ssize_t ret;
 
@@ -592,6 +622,7 @@ static ssize_t i2c_scl_frequency_show(struct device *dev,
 				      struct device_attribute *da,
 				      char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	ssize_t ret;
 
@@ -605,6 +636,7 @@ static DEVICE_ATTR_RO(i2c_scl_frequency);
 
 static int i3c_set_hotjoin(struct i3c_master_controller *master, bool enable)
 {
+  printk("FUNC %s\n", __func__);
 	int ret;
 
 	if (!master || !master->ops)
@@ -630,6 +662,7 @@ static int i3c_set_hotjoin(struct i3c_master_controller *master, bool enable)
 static ssize_t hotjoin_store(struct device *dev, struct device_attribute *attr,
 			     const char *buf, size_t count)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	int ret;
 	bool res;
@@ -655,6 +688,7 @@ static ssize_t hotjoin_store(struct device *dev, struct device_attribute *attr,
  */
 int i3c_master_enable_hotjoin(struct i3c_master_controller *master)
 {
+  printk("FUNC %s\n", __func__);
 	return i3c_set_hotjoin(master, true);
 }
 EXPORT_SYMBOL_GPL(i3c_master_enable_hotjoin);
@@ -667,12 +701,14 @@ EXPORT_SYMBOL_GPL(i3c_master_enable_hotjoin);
  */
 int i3c_master_disable_hotjoin(struct i3c_master_controller *master)
 {
+  printk("FUNC %s\n", __func__);
 	return i3c_set_hotjoin(master, false);
 }
 EXPORT_SYMBOL_GPL(i3c_master_disable_hotjoin);
 
 static ssize_t hotjoin_show(struct device *dev, struct device_attribute *da, char *buf)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_bus *i3cbus = dev_to_i3cbus(dev);
 	ssize_t ret;
 
@@ -702,6 +738,7 @@ ATTRIBUTE_GROUPS(i3c_masterdev);
 
 static void i3c_masterdev_release(struct device *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master = dev_to_i3cmaster(dev);
 	struct i3c_bus *bus = dev_to_i3cbus(dev);
 
@@ -2781,6 +2818,7 @@ EXPORT_SYMBOL_GPL(i3c_generic_ibi_alloc_pool);
 struct i3c_ibi_slot *
 i3c_generic_ibi_get_free_slot(struct i3c_generic_ibi_pool *pool)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_generic_ibi_slot *slot;
 	unsigned long flags;
 
@@ -2806,6 +2844,7 @@ EXPORT_SYMBOL_GPL(i3c_generic_ibi_get_free_slot);
 void i3c_generic_ibi_recycle_slot(struct i3c_generic_ibi_pool *pool,
 				  struct i3c_ibi_slot *s)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_generic_ibi_slot *slot;
 	unsigned long flags;
 
@@ -2821,6 +2860,7 @@ EXPORT_SYMBOL_GPL(i3c_generic_ibi_recycle_slot);
 
 static int i3c_master_check_ops(const struct i3c_master_controller_ops *ops)
 {
+  printk("FUNC %s\n", __func__);
 	if (!ops || !ops->bus_init || !ops->priv_xfers ||
 	    !ops->send_ccc_cmd || !ops->do_daa || !ops->i2c_xfers)
 		return -EINVAL;
@@ -2859,6 +2899,7 @@ int i3c_master_register(struct i3c_master_controller *master,
 			const struct i3c_master_controller_ops *ops,
 			bool secondary)
 {
+  printk("FUNC %s\n", __func__);
 	unsigned long i2c_scl_rate = I3C_BUS_I2C_FM_PLUS_SCL_MAX_RATE;
 	struct i3c_bus *i3cbus = i3c_master_get_bus(master);
 	enum i3c_bus_mode mode = I3C_BUS_MODE_PURE;
@@ -2985,6 +3026,7 @@ EXPORT_SYMBOL_GPL(i3c_master_register);
  */
 void i3c_master_unregister(struct i3c_master_controller *master)
 {
+  printk("FUNC %s\n", __func__);
 	i3c_bus_notify(&master->bus, I3C_NOTIFY_BUS_REMOVE);
 
 	i3c_master_i2c_adapter_cleanup(master);
@@ -2997,6 +3039,7 @@ EXPORT_SYMBOL_GPL(i3c_master_unregister);
 
 int i3c_dev_setdasa_locked(struct i3c_dev_desc *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master;
 
 	if (!dev)
@@ -3018,6 +3061,7 @@ int i3c_dev_do_priv_xfers_locked(struct i3c_dev_desc *dev,
 				 struct i3c_priv_xfer *xfers,
 				 int nxfers)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master;
 
 	if (!dev)
@@ -3035,6 +3079,7 @@ int i3c_dev_do_priv_xfers_locked(struct i3c_dev_desc *dev,
 
 int i3c_dev_disable_ibi_locked(struct i3c_dev_desc *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master;
 	int ret;
 
@@ -3057,6 +3102,7 @@ int i3c_dev_disable_ibi_locked(struct i3c_dev_desc *dev)
 
 int i3c_dev_enable_ibi_locked(struct i3c_dev_desc *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master = i3c_dev_get_master(dev);
 	int ret;
 
@@ -3073,6 +3119,7 @@ int i3c_dev_enable_ibi_locked(struct i3c_dev_desc *dev)
 int i3c_dev_request_ibi_locked(struct i3c_dev_desc *dev,
 			       const struct i3c_ibi_setup *req)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master = i3c_dev_get_master(dev);
 	struct i3c_device_ibi_info *ibi;
 	int ret;
@@ -3111,6 +3158,7 @@ int i3c_dev_request_ibi_locked(struct i3c_dev_desc *dev,
 
 void i3c_dev_free_ibi_locked(struct i3c_dev_desc *dev)
 {
+  printk("FUNC %s\n", __func__);
 	struct i3c_master_controller *master = i3c_dev_get_master(dev);
 
 	if (!dev->ibi)
@@ -3132,6 +3180,7 @@ void i3c_dev_free_ibi_locked(struct i3c_dev_desc *dev)
 
 static int __init i3c_init(void)
 {
+  printk("FUNC %s\n", __func__);
 	int res;
 
 	res = of_alias_get_highest_id("i3c");
@@ -3160,6 +3209,7 @@ subsys_initcall(i3c_init);
 
 static void __exit i3c_exit(void)
 {
+  printk("FUNC %s\n", __func__);
 	bus_unregister_notifier(&i2c_bus_type, &i2cdev_notifier);
 	idr_destroy(&i3c_bus_idr);
 	bus_unregister(&i3c_bus_type);

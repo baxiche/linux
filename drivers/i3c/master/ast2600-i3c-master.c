@@ -47,11 +47,13 @@ struct ast2600_i3c {
 
 static struct ast2600_i3c *to_ast2600_i3c(struct dw_i3c_master *dw)
 {
+pr_info("[hello] %s\n", __func__);
 	return container_of(dw, struct ast2600_i3c, dw);
 }
 
 static int ast2600_i3c_pullup_to_reg(unsigned int ohms, u32 *regp)
 {
+pr_info("[hello] %s\n", __func__);
 	u32 reg;
 
 	switch (ohms) {
@@ -76,6 +78,7 @@ static int ast2600_i3c_pullup_to_reg(unsigned int ohms, u32 *regp)
 
 static int ast2600_i3c_init(struct dw_i3c_master *dw)
 {
+pr_info("[hello] %s\n", __func__);
 	struct ast2600_i3c *i3c = to_ast2600_i3c(dw);
 	u32 reg = 0;
 	int rc;
@@ -104,6 +107,7 @@ static void ast2600_i3c_set_dat_ibi(struct dw_i3c_master *i3c,
 				    struct i3c_dev_desc *dev,
 				    bool enable, u32 *dat)
 {
+pr_info("[hello] %s\n", __func__);
 	/*
 	 * The ast2600 i3c controller will lock up on receiving 4n+1-byte IBIs
 	 * if the PEC is disabled. We have no way to restrict the length of
@@ -124,6 +128,7 @@ static const struct dw_i3c_platform_ops ast2600_i3c_ops = {
 
 static int ast2600_i3c_probe(struct platform_device *pdev)
 {
+pr_info("[hello] %s\n", __func__);
 	struct device_node *np = pdev->dev.of_node;
 	struct of_phandle_args gspec;
 	struct ast2600_i3c *i3c;
@@ -161,6 +166,7 @@ static int ast2600_i3c_probe(struct platform_device *pdev)
 
 static void ast2600_i3c_remove(struct platform_device *pdev)
 {
+pr_info("[hello] %s\n", __func__);
 	struct dw_i3c_master *dw_i3c = platform_get_drvdata(pdev);
 
 	dw_i3c_common_remove(dw_i3c);
